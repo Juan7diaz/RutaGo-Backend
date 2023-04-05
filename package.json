@@ -1,0 +1,21 @@
+{
+  "name": "back_rutas_busetas-stu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Juan7diaz/Back_rutas_busetas-STU.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Juan7diaz/Back_rutas_busetas-STU/issues"
+  },
+  "homepage": "https://github.com/Juan7diaz/Back_rutas_busetas-STU#readme"
+}
