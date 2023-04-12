@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 
 import userRoutes from '../routes/users.routes'
+import AppDataSource from '../database/config'
 
 class Server {
   port: string | undefined
@@ -10,6 +11,7 @@ class Server {
   constructor() {
     this.port = process.env.port;
     this.app = express()
+    this.databaseInitialize()
     this.middlewares()
     this.routes()
   }
@@ -18,6 +20,15 @@ class Server {
     this.app.use(express.static("public"))
     this.app.use(express.json())
     this.app.use(cors())
+  }
+
+  async databaseInitialize(){
+    try{
+      await AppDataSource.initialize()
+    }catch(err){
+      console.error("ERROR AL MOMENTO DE INIZIALIZAR LA BASE DE DATO: ")
+      console.error(err)
+    }
   }
 
   routes(){
