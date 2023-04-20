@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 import AppDataSource from '../database/config'
 import bcrypt from 'bcryptjs'
-
-
 import User from '../entities/User.entities'
 
 export const Authenticate = async (req: Request, res: Response) => {
@@ -14,8 +12,6 @@ export const Authenticate = async (req: Request, res: Response) => {
       error: 'Email or password is missing'
     })
   }
-
-  console.log(data)
 
   if(data.password){
     // descomentar esta linea cuando se quiera encriptar la contraseña
@@ -32,8 +28,10 @@ export const Authenticate = async (req: Request, res: Response) => {
       where: { state: true, email: data.email, password: data.password }
     })
 
-    res.json(
-      user.length > 0 ? {...user[0], ok: true} : { message: `the user with email ${data.email} does not exist`, ok: false }
+    res.status(200).json(
+      user.length > 0
+        ? {...user[0], ok: true}
+        : { message: `El correo o la contraseña estan incorrectas`, ok: false }
     )
 
   } catch (err) {
@@ -44,5 +42,3 @@ export const Authenticate = async (req: Request, res: Response) => {
 
   }
 }
-
-
