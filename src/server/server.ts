@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 
 import userRoutes from '../routes/users.routes'
+import authRoutes from '../routes/auth.routes'
 import AppDataSource from '../database/config'
 
 class Server {
@@ -33,6 +34,7 @@ class Server {
 
   routes(){
     this.app.use('/api/users', userRoutes)
+    this.app.use('/api/auth', authRoutes)
   }
 
   listen() {
