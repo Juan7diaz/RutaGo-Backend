@@ -33,7 +33,7 @@ export const Authenticate = async (req: Request, res: Response) => {
     })
 
     res.json(
-      user.length > 0 ? user[0] : { message: `the user with email ${data.email} does not exist` }
+      user.length > 0 ? {...user[0], ok: true} : { message: `the user with email ${data.email} does not exist`, ok: false }
     )
 
   } catch (err) {
