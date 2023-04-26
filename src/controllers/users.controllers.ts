@@ -35,12 +35,12 @@ export const getUsers = async (req: Request, res: Response) => {
       users: allUsers,
     })
 
-  } catch (err) {
+  } catch (error) {
 
     res.status(400).json({
       ok: false,
       message: "Error al obtener los usuarios",
-      error: err
+      error: error
     })
 
   }
@@ -71,10 +71,12 @@ export const getUser = async (req: Request, res: Response) => {
 
     res.json( user.length > 0 ?  success : error)
 
-  } catch (err) {
+  } catch (error) {
 
     res.status(400).json({
-      error: err
+      ok: false,
+      message: "Error al intentar obtener el usuario",
+      error: error
     })
 
   }
@@ -99,11 +101,11 @@ export const postUser = (req: Request, res: Response) => {
       user: user
     })
 
-  }catch(err){
+  }catch(error){
     res.status(400).json({
       ok: false,
       message: "Error al crear el usuario",
-      err: err
+      error: error
     })
   }
 
