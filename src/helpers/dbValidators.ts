@@ -7,7 +7,6 @@ export const existingEmail = async(email = '') => {
 
   const existingEmail = await UserRepository.findOneBy({
     email: email,
-    state: true,
   })
 
   if(existingEmail){
