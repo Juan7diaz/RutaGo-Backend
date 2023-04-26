@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import AppDataSource from '../database/config'
+import bcrypt from 'bcryptjs'
 
 import User from '../entities/User.entities'
 
@@ -29,6 +30,7 @@ export const getUsers = async (req: Request, res: Response) => {
     }
 
     res.json({
+      ok: true,
       info: info,
       users: allUsers,
     })
@@ -36,6 +38,8 @@ export const getUsers = async (req: Request, res: Response) => {
   } catch (err) {
 
     res.status(400).json({
+      ok: false,
+      message: "Error al obtener los usuarios",
       error: err
     })
 
@@ -54,9 +58,18 @@ export const getUser = async (req: Request, res: Response) => {
         where: { state: true, id: userId }
       })
 
-    res.json(
-      user.length > 0 ? user[0] : { message: `the user with id ${userId} does not exist` }
-    )
+    const success = {
+      ok: true,
+      message: "El usuario se ha encontrado correctamente",
+      user: user[0]
+    }
+
+    const error = {
+      ok: false,
+      message: `El usuario con el id: ${userId} no existe`,
+    }
+
+    res.json( user.length > 0 ?  success : error)
 
   } catch (err) {
 
@@ -65,5 +78,35 @@ export const getUser = async (req: Request, res: Response) => {
     })
 
   }
+}
+
+
+export const postUser = (req: Request, res: Response) => {
+
+  try{
+
+    const { firstName, lastName, email, password } = req.body
+
+    const user = new User()
+    user.firstName = firstName
+    user.lastName = lastName
+    user.email = email
+    user.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+    AppDataSource.manager.save(user)
+
+    res.json({
+      ok: true,
+      message: "El usuario se ha creado correctamente",
+      user: user
+    })
+
+  }catch(err){
+    res.status(400).json({
+      ok: false,
+      message: "Error al crear el usuario",
+      err: err
+    })
+  }
+
 }
 
