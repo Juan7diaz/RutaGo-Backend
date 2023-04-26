@@ -9,7 +9,15 @@ import { validationResult } from 'express-validator'; // para validar los campos
 export const validateFields = ( req:Request, res:Response, next:NextFunction) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json(errors);
+
+    const result = {
+      ok: false,
+      message: errors.array()[0].msg,
+      total_errors: errors.array().length,
+      errors: errors.array()
+    }
+
+    return res.status(400).json(result);
   }
   next();
 }

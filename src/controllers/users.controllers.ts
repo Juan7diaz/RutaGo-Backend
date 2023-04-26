@@ -80,7 +80,6 @@ export const getUser = async (req: Request, res: Response) => {
   }
 }
 
-
 export const postUser = (req: Request, res: Response) => {
 
   try{
