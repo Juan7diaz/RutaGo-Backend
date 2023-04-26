@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { check } from 'express-validator'
 
-import { getUsers, getUser, postUser } from '../controllers/users.controllers'
+import { getUsers, getUser, postUser, putUser } from '../controllers/users.controllers'
 import { validateFields } from "../middlewares/validateFields";
 
 const router = Router()
@@ -17,5 +17,6 @@ router.post('/', [
   check('password', 'La contraseña debe tener al menos 6 caracteres').isLength({ min: 6 }),
   validateFields
 ], postUser)
+router.put('/:id', putUser)
 
 export default router;

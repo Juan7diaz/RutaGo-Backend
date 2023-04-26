@@ -109,3 +109,38 @@ export const postUser = (req: Request, res: Response) => {
 
 }
 
+export const putUser = async(req: Request, res: Response) => {
+
+  const userId = parseInt(req.params.id)
+  const { id, password, state, ...rest } = req.body
+
+  //cambiar la contraseña
+  if(password){
+    rest.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+  }
+
+  try {
+
+    // actualizamos el usuario
+    const UsersRepository = AppDataSource.getRepository(User)
+    await UsersRepository.update(userId, rest)
+
+    // obtenemos el usuario actualizado
+    const currUser = await UsersRepository.findOneBy({id: userId})
+
+    res.json({
+      ok: true,
+      message: "El usuario se ha actualizado correctamente",
+      user: currUser
+    })
+
+  } catch (error) {
+    res.status(400).json({
+      ok: false,
+      message: 'Error al actualizar el usuario',
+      error: error
+    })
+  }
+
+}
+
