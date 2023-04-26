@@ -23,9 +23,9 @@ export const Authenticate = async (req: Request, res: Response) => {
       where: { state: true, email: email }
     })
 
-    if(user.length === 0) return res.status(400).json(error)
+    if(user.length === 0) return res.status(200).json(error)
 
-    if(!bcrypt.compareSync(password, user[0].password)) return res.status(400).json(error)
+    if(!bcrypt.compareSync(password, user[0].password)) return res.status(200).json(error)
 
     res.status(200).json({
       ok: true,
