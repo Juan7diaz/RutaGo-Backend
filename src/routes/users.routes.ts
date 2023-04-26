@@ -1,13 +1,15 @@
 import { Router } from "express";
 import { check } from 'express-validator'
 
-import { getUsers, getUser, postUser, putUser } from '../controllers/users.controllers'
+import { getUsers, getUser, postUser, putUser, deleteUser } from '../controllers/users.controllers'
 import { validateFields } from "../middlewares/validateFields";
 
 const router = Router()
 
 router.get('/', getUsers)
+
 router.get('/:id', getUser)
+
 router.post('/', [
   check('firstName', 'El nombre es obligatorio').notEmpty(),
   check('lastName', 'El apellido es obligatorio').notEmpty(),
@@ -17,6 +19,7 @@ router.post('/', [
   check('password', 'La contraseña debe tener al menos 6 caracteres').isLength({ min: 6 }),
   validateFields
 ], postUser)
+
 router.put('/:id',[
   check('id', 'El id debe ser un numero').isNumeric(),
   check('firstName', 'Se ha pasado un nombre vacio').optional().notEmpty(),
@@ -25,5 +28,11 @@ router.put('/:id',[
   check('password', 'La contraseña debe tener al menos 6 caracteres').optional().isLength({ min: 6 }),
   validateFields
 ],putUser)
+
+router.delete('/:id',[
+  check('id', 'El id debe ser un numero').isNumeric(),
+  validateFields
+], deleteUser)
+
 
 export default router;

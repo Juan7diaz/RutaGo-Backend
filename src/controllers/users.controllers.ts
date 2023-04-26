@@ -144,3 +144,27 @@ export const putUser = async(req: Request, res: Response) => {
 
 }
 
+export const deleteUser = async(req: Request, res: Response) => {
+
+  const { id } = req.params
+
+  try {
+
+    const UsersRepository = AppDataSource.getRepository(User)
+    const userToDelete = await UsersRepository.update(id, {state: false})
+
+    res.json({
+      ok: true,
+      message: 'El usuario se ha borrado correctamente',
+      userToDelete
+    })
+
+  }catch(error){
+    res.status(400).json({
+      ok: false,
+      message: 'Error al borrar el usuario',
+      error: error
+    })
+  }
+
+}
