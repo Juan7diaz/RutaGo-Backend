@@ -10,7 +10,7 @@ class Server {
   app: any
 
   constructor() {
-    this.port = process.env.port;
+    this.port = process.env.PORT;
     this.app = express()
     this.databaseInitialize()
     this.middlewares()
