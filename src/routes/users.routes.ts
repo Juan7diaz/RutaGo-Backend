@@ -2,8 +2,9 @@ import { Router } from "express";
 import { check, param } from 'express-validator'
 
 import { getUsers, getUser, postUser, putUser, deleteUser } from '../controllers/users.controllers'
-import { validateFields } from "../middlewares/validateFields";
 import { existingEmail, existingUserById, existingRole } from '../helpers/dbValidators'
+import { validateFields } from "../middlewares/validateFields";
+import { validateJWT } from "../middlewares/validateJWT";
 
 const router = Router()
 
@@ -39,6 +40,7 @@ router.put('/:id',[
 ], putUser)
 
 router.delete('/:id',[
+  // validateJWT,
   param('id', 'El id debe ser un numero').isNumeric(),
   param("id").custom( (id) => existingUserById(id) ),
   validateFields

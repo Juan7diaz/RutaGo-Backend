@@ -6,7 +6,7 @@ import { validationResult } from 'express-validator'; // para validar los campos
 // si hay errores, entonces res.status(400).json(errors) para que se detenga y muestre los errores
 // en el front se me va a poder ver un objeto con todos los errores que se generaron
 
-export const validateFields = ( req:Request, res:Response, next:NextFunction) => {
+export const validateFields = ( req:Request, res:Response, next:NextFunction ) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
 
