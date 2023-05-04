@@ -17,7 +17,7 @@ export const getUsers = async (req: Request, res: Response) => {
     // https://typeorm.io/many-to-one-one-to-many-relations
     // https://orkhan.gitbook.io/typeorm/docs/find-options
     const [allUsers, amountUsers] = await Promise.all([
-      AppDataSource.getRepository(User).find({ where: { state: true }, take: limit, skip: offset, }),
+      AppDataSource.getRepository(User).find({ relations: {role: true }, where: { state: true }, take: limit, skip: offset, }),
       AppDataSource.getRepository(User).countBy({ state: true }),
     ])
 
@@ -55,6 +55,7 @@ export const getUser = async (req: Request, res: Response) => {
     const user = await AppDataSource
       .getRepository(User)
       .find({
+        relations: {role: true },
         where: { state: true, id: userId }
       })
 
@@ -86,12 +87,13 @@ export const postUser = (req: Request, res: Response) => {
 
   try{
 
-    const { firstName, lastName, email, password } = req.body
+    const { firstName, lastName, email, password, role} = req.body
 
     const user = new User()
     user.firstName = firstName
     user.lastName = lastName
     user.email = email
+    user.role = role ? role : 1 // el 1 es el ID de USER_ROLE
     user.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
     AppDataSource.manager.save(user)
 
