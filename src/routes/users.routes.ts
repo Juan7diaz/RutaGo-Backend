@@ -25,6 +25,7 @@ router.post('/', [
 ], postUser)
 
 router.put('/:id',[
+  param('id', 'El id es requerido').notEmpty(),
   param('id', 'El id debe ser un numero').isNumeric(),
   param("id").custom( (id) => existingUserById(id) ),
   check('firstName', 'Se ha pasado un nombre vacio').optional().notEmpty(),

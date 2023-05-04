@@ -32,6 +32,7 @@ export const Authenticate = async (req: Request, res: Response) => {
 
     // enviamos solo los datos que queremos mostrar
     const dataUser = {
+      id: user[0].id, // temporal
       firstName: user[0].firstName,
       lastName: user[0].lastName,
       email: user[0].email
