@@ -59,11 +59,11 @@ export const getUser = async (req: CustomRequest, res: Response) => {
         where: { state: true, id: id }
       })
 
-      const firtName = response?.firstName
+      const firstName = response?.firstName
       const lastName = response?.lastName
       const email = response?.email
       const role = response?.role.role
-      const user = { firtName, lastName, email, role }
+      const user = { firstName, lastName, email, role }
 
 
     const success = {
