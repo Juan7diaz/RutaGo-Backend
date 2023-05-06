@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { check, param } from 'express-validator'
+import { check, param, header } from 'express-validator'
 
 import { getUsers, getUser, postUser, putUser, deleteUser } from '../controllers/users.controllers'
-import { existingEmail, existingUserById, existingRole } from '../helpers/dbValidators'
+import { existingEmail, existingRole } from '../helpers/dbValidators'
 import { validateFields } from "../middlewares/validateFields";
 import { validateJWT } from "../middlewares/validateJWT";
 
@@ -25,10 +25,9 @@ router.post('/', [
   validateFields
 ], postUser)
 
-router.put('/:id',[
-  param('id', 'El id es requerido').notEmpty(),
-  param('id', 'El id debe ser un numero').isNumeric(),
-  param("id").custom( (id) => existingUserById(id) ),
+router.put('/',[
+  validateJWT,
+  header('rutago-token', 'El token es requerido').notEmpty(),
   check('firstName', 'Se ha pasado un nombre vacio').optional().notEmpty(),
   check('lastName', 'Se ha pasado un apellido vacio').optional().notEmpty(),
   check('email', 'El email no se encuentra en el formato correcto').optional().isEmail(),
@@ -39,10 +38,9 @@ router.put('/:id',[
   validateFields
 ], putUser)
 
-router.delete('/:id',[
-  // validateJWT,
-  param('id', 'El id debe ser un numero').isNumeric(),
-  param("id").custom( (id) => existingUserById(id) ),
+router.delete('/',[
+  validateJWT,
+  header('rutago-token', 'El token es requerido').notEmpty(),
   validateFields
 ], deleteUser)
 

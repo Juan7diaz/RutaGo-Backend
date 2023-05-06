@@ -1,26 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken'
 import User from '../entities/User.entities';
 import AppDataSource from '../database/config';
-
-interface Ipayload {
-  uid: number,
-  iat: number,
-  exp: number
-}
-
-interface IuserAuth {
-  id: number,
-  firstName: string,
-  lastName: string,
-  email: string,
-  password: string,
-  state: boolean,
-}
-
-interface CustomRequest extends Request {
-  userAuth?: IuserAuth;
-}
+import { CustomRequest, IpayloadToken } from '../../interfaces';
 
 export const validateJWT = async( req:CustomRequest, res:Response, next:NextFunction ) => {
 
@@ -37,7 +19,7 @@ export const validateJWT = async( req:CustomRequest, res:Response, next:NextFunc
   try {
 
     const secretOrPrivateKey = process.env.TOKEN_SECRET!.toString();
-    const { uid } = jwt.verify(token, secretOrPrivateKey) as Ipayload
+    const { uid }  = jwt.verify(token, secretOrPrivateKey) as IpayloadToken
 
     const user = await AppDataSource.getRepository(User).findOneBy({ id: uid, state: true })
 

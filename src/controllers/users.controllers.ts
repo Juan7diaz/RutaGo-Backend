@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import AppDataSource from '../database/config'
 import bcrypt from 'bcryptjs'
-
 import User from '../entities/User.entities'
+import { CustomRequest, IuserAuth } from "../../interfaces";
 
 export const getUsers = async (req: Request, res: Response) => {
 
@@ -113,10 +113,11 @@ export const postUser = (req: Request, res: Response) => {
 
 }
 
-export const putUser = async(req: Request, res: Response) => {
+export const putUser = async(req: CustomRequest, res: Response) => {
 
-  const userId = parseInt(req.params.id)
-  const { id, password, state, ...rest } = req.body
+  const { id:userId } = req.userAuth as IuserAuth
+
+  const { id, password, state, role, ...rest } = req.body
 
   //cambiar la contraseña
   if(password){
@@ -148,19 +149,18 @@ export const putUser = async(req: Request, res: Response) => {
 
 }
 
-export const deleteUser = async(req: Request, res: Response) => {
+export const deleteUser = async(req: CustomRequest, res: Response) => {
 
-  const { id } = req.params
+  const { id } = req.userAuth as IuserAuth
 
   try {
 
     const UsersRepository = AppDataSource.getRepository(User)
-    const userToDelete = await UsersRepository.update(id, {state: false})
+    await UsersRepository.update(id, {state: false})
 
     res.json({
       ok: true,
       message: 'El usuario se ha borrado correctamente',
-      userToDelete
     })
 
   }catch(error){
