@@ -20,26 +20,28 @@ export const Authenticate = async (req: Request, res: Response) => {
     // verificamos el email y si es un usuario activo
     const user = await AppDataSource
     .getRepository(User)
-    .find({
+    .findOne({
+      relations: {role: true },
       where: { state: true, email: email }
     })
 
     // retornamos en caso de que no exista
-    if(user.length === 0) return res.status(400).json(error)
+    if(!user) return res.status(400).json(error)
 
     // verificamos la contraseña
-    if(!bcrypt.compareSync(password, user[0].password)) return res.status(400).json(error)
+    if(!bcrypt.compareSync(password, user.password)) return res.status(400).json(error)
 
     // enviamos solo los datos que queremos mostrar
     const dataUser = {
-      id: user[0].id, // temporal
-      firstName: user[0].firstName,
-      lastName: user[0].lastName,
-      email: user[0].email
+      id: user.id, // temporal
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role.role,
     }
 
     // generamos JWT
-    const token = await generateJWT(  user[0].id  );
+    const token = await generateJWT(  user.id  );
 
     res.status(200).json({
       ok: true,
