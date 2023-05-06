@@ -52,17 +52,24 @@ export const getUser = async (req: CustomRequest, res: Response) => {
 
   try {
 
-    const user = await AppDataSource
+    const response = await AppDataSource
       .getRepository(User)
-      .find({
+      .findOne({
         relations: {role: true },
         where: { state: true, id: id }
       })
 
+      const firtName = response?.firstName
+      const lastName = response?.lastName
+      const email = response?.email
+      const role = response?.role.role
+      const user = { firtName, lastName, email, role }
+
+
     const success = {
       ok: true,
       message: "El usuario se ha encontrado correctamente",
-      user: user[0]
+      user: user
     }
 
     const error = {
@@ -70,7 +77,7 @@ export const getUser = async (req: CustomRequest, res: Response) => {
       message: `El usuario con el id: ${id} no existe`,
     }
 
-    res.json( user.length > 0 ?  success : error)
+    res.json( response ?  success : error)
 
   } catch (error) {
 
