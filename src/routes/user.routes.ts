@@ -1,16 +1,17 @@
 import { Router } from "express";
 import { check, param, header } from 'express-validator'
 
-import { getUsers, getUser, postUser, putUser, deleteUser } from '../controllers/users.controllers'
+import { getUsers, getUser, postUser, putUser, deleteUser } from '../controllers/user.controllers'
 import { existingEmail, existingRole } from '../helpers/dbValidators'
 import { validateFields } from "../middlewares/validateFields";
 import { validateJWT } from "../middlewares/validateJWT";
 
 const router = Router()
 
-router.get('/', getUsers)
-
-router.get('/:id', getUser)
+router.get('/',[
+  validateJWT,
+  header('rutago-token', 'El token es requerido').notEmpty(),
+], getUser)
 
 router.post('/', [
   check('firstName', 'El nombre es obligatorio').notEmpty(),

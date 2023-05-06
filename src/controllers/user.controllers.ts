@@ -46,9 +46,9 @@ export const getUsers = async (req: Request, res: Response) => {
   }
 }
 
-export const getUser = async (req: Request, res: Response) => {
+export const getUser = async (req: CustomRequest, res: Response) => {
 
-  const userId = parseInt(req.params.id)
+  const { id } = req.userAuth as IuserAuth
 
   try {
 
@@ -56,7 +56,7 @@ export const getUser = async (req: Request, res: Response) => {
       .getRepository(User)
       .find({
         relations: {role: true },
-        where: { state: true, id: userId }
+        where: { state: true, id: id }
       })
 
     const success = {
@@ -67,7 +67,7 @@ export const getUser = async (req: Request, res: Response) => {
 
     const error = {
       ok: false,
-      message: `El usuario con el id: ${userId} no existe`,
+      message: `El usuario con el id: ${id} no existe`,
     }
 
     res.json( user.length > 0 ?  success : error)
