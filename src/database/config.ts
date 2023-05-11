@@ -1,6 +1,7 @@
 import { DataSource } from "typeorm"
 import User  from '../entities/User.entities'
 import Role from '../entities/Role.entities'
+import Busroute from '../entities/Busroute.entities'
 import 'dotenv/config'
 
 const DB_TYPE = process.env.TYPEORM_CONNECTION as "postgres" | undefined;
@@ -21,7 +22,7 @@ const AppDataSource = new DataSource({
   password: DB_PASSWORD,
   port: DB_PORT,
   database: DB_DATABASE,
-  entities: [ User, Role ],
+  entities: [ User, Role, Busroute],
   synchronize: true,
 });
 

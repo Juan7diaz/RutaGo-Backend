@@ -12,7 +12,7 @@ export const validateJWT = async( req:CustomRequest, res:Response, next:NextFunc
   if( !token ){
     return res.status(401).json({
       ok: false,
-      message: 'No se ha proporcionado un token'
+      message: 'No se ha proporcionado un token [rutago-token]'
     })
   }
 
