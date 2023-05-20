@@ -86,8 +86,6 @@ export const llenar = async (req: Request, res: Response) => {
   ];
   const newRuta = new Busroute()
   newRuta.name = "terminar universidad"
-  newRuta.created_at = new Date()
-  newRuta.updated_at = new Date()
   newRuta.isActive = true
   newRuta.route = recorrido
   AppDataSource.manager.save(newRuta)

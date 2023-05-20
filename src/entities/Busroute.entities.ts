@@ -8,12 +8,6 @@ export class Busroute {
   @Column({ unique: true })
   name: string
 
-  @Column({ nullable: true })
-  created_at: Date
-
-  @Column({ nullable: true })
-  updated_at: Date
-
   @Column({ default: true })
   isActive: boolean
 
