@@ -41,7 +41,7 @@ export const Authenticate = async (req: Request, res: Response) => {
     }
 
     // generamos JWT
-    const token = await generateJWT(  user.id  );
+    const token = await generateJWT(  user.id, user.role.role,   );
 
     res.status(200).json({
       ok: true,
