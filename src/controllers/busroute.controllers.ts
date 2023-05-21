@@ -64,10 +64,6 @@ export const putBusroute = async (req: Request, res: Response) => {
 
     const { id, ...rest } = req.body
 
-    if(rest.isActive){
-      rest.isActive = rest.isActive === 'true' ? true : false
-    }
-
     const UsersRepository = AppDataSource.getRepository(Busroute)
     await UsersRepository.update(id, rest)
 
