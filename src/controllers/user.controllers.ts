@@ -48,7 +48,8 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const getUser = async (req: CustomRequest, res: Response) => {
 
-  const { id } = req.userAuth as IuserAuth
+  //const { id } = req.userAuth as IuserAuth
+  const id  = parseInt(req.params.id)
 
   try {
 
@@ -122,7 +123,8 @@ export const postUser = (req: Request, res: Response) => {
 
 export const putUser = async(req: CustomRequest, res: Response) => {
 
-  const { id:userId } = req.userAuth as IuserAuth
+  //const { id:userId } = req.userAuth as IuserAuth
+  const userId  = parseInt(req.params.id)
 
   const { id, password, state, role, ...rest } = req.body
 
@@ -158,7 +160,8 @@ export const putUser = async(req: CustomRequest, res: Response) => {
 
 export const deleteUser = async(req: CustomRequest, res: Response) => {
 
-  const { id } = req.userAuth as IuserAuth
+  //const { id } = req.userAuth as IuserAuth
+  const id  = parseInt(req.params.id)
 
   try {
 
