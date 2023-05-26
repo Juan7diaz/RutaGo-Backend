@@ -4,6 +4,7 @@ import cors from "cors";
 import userRoutes from '../routes/user.routes'
 import authRoutes from '../routes/auth.routes'
 import busroute from '../routes/busroute.routes'
+import role from '../routes/role.routes'
 
 import AppDataSource from '../database/config'
 
@@ -38,6 +39,7 @@ class Server {
     this.app.use('/api/user', userRoutes)
     this.app.use('/api/auth', authRoutes)
     this.app.use('/api/busroute', busroute)
+    this.app.use('/api/role', role)
   }
 
   listen() {
