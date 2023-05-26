@@ -33,7 +33,6 @@ export const postBusRoute = async (req: Request, res: Response) => {
   try{
 
     const { name, isActive, route } = req.body
-    console.log('hola')
 
     const newbusroute = new Busroute()
     newbusroute.name = name
@@ -63,9 +62,12 @@ export const putBusroute = async (req: Request, res: Response) => {
   try{
 
     const { id, ...rest } = req.body
+    const idbus = parseInt(req.params.idbus)
+    console.log(idbus)
+    console.log(rest)
 
     const UsersRepository = AppDataSource.getRepository(Busroute)
-    await UsersRepository.update(id, rest)
+    await UsersRepository.update(idbus, rest)
 
     res.json({
       ok: true,

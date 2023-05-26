@@ -25,11 +25,11 @@ router.post('/', [
 ], postBusRoute )
 
 
-router.put('/', [
+router.put('/:idbus', [
   validateJWT,
   header('rutago-token', 'El token es requerido').notEmpty(),
-  body('id', 'El id es obligatorio').notEmpty(),
-  body('id', 'El id debe ser un numero').isNumeric(),
+  param('idbus', 'El id es obligatorio').notEmpty(),
+  param('idbus', 'El id debe ser un numero').isNumeric(),
   body("name", "El nombre es obligatorio").notEmpty(),
   body("route", "La ruta es obligatoria").notEmpty().isArray(),
   body("isActive", "El estado es obligatorio y debe ser (true o false)").optional().notEmpty().isBoolean(),
