@@ -1,14 +1,25 @@
+import { Request } from 'express';
 import User from '../entities/User.entities'
 import Role from '../entities/Role.entities'
 import AppDataSource from '../database/config'
 
-export const existingEmail = async(email = '') => {
+export const existingEmail = async(email = '', req:Request|any) => {
+
+  const id = parseInt(req.params.id) || -1
 
   const UserRepository = AppDataSource.getRepository(User)
 
-  const existingEmail = await UserRepository.findOneBy({
-    email: email,
-  })
+  let existingEmail
+
+  if(id > 0){
+    existingEmail = await UserRepository.findOneBy({
+      email: email,
+      id: id
+    })
+    existingEmail = existingEmail?.id == id ? null : existingEmail
+  }else{
+    existingEmail = await UserRepository.findOneBy({ email: email})
+  }
 
   if(existingEmail){
     throw new Error(`El ${email} ya se encuentra en uso`)

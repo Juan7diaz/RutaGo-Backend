@@ -126,7 +126,7 @@ export const putUser = async(req: CustomRequest, res: Response) => {
   //const { id:userId } = req.userAuth as IuserAuth
   const userId  = parseInt(req.params.id)
 
-  const { id, password, state, role, ...rest } = req.body
+  const { id, password, state, ...rest } = req.body
 
   //cambiar la contraseña
   if(password){
