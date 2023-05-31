@@ -156,8 +156,7 @@ export const sendNewPassword = async (req: Request, res: Response) => {
     const message = {
       from: process.env.GOOGLE_EMAIL_ADDRESS,
       to: email,
-      subject: "Contraseña nueva para ingrear a RUTAGO",
-      text: "esto es una prueba",
+      subject: `🔥 ${user.firstName} tu nueva contraseña esta lista 🔥`,
       html: html
     };
 
