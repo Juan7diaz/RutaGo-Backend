@@ -142,12 +142,23 @@ export const sendNewPassword = async (req: Request, res: Response) => {
 
     let newPassword = generatePassword()
 
+    const html = `
+    <div style="margin: 0 auto;padding: 20px;background-color: #ffffff;font-family: Arial, Helvetica, sans-serif;">
+      <h1 style="color: #333333;">¿Olvidaste tu contraseña?</h1>
+      <p style="color: #666666;">Hemos cambiado la contraseña para que puedas iniciar sesión.</p>
+      <p style="color: #666666; font-weight: bold;">Nueva contraseña: ${newPassword} </p>
+      <p style="color: #666666; margin-bottom: 10px;">Esta contraseña es aleatoria. Te recomendamos cambiarla en el apartado de "Ver perfil" al iniciar sesión.</p>
+      <a href="https://rutago.netlify.app/auth/login" target="_blank"
+          style="padding: 10px 20px; background-color: #f26327; color: white;text-decoration: none;border-radius: 4px;">Ir a iniciar sesión</a>
+      <p style="color: #666666;margin: 20px 0px;">Atentamente, RutaGOD</p>
+    </div>`
+
     const message = {
       from: process.env.GOOGLE_EMAIL_ADDRESS,
       to: email,
       subject: "Contraseña nueva para ingrear a RUTAGO",
       text: "esto es una prueba",
-      html: `<p>tu nueva contraseña es : ${newPassword} </p>`
+      html: html
     };
 
     const transporter = nodemailer.createTransport({
@@ -163,7 +174,7 @@ export const sendNewPassword = async (req: Request, res: Response) => {
 
     transporter.sendMail(message, async (error, info) => {
       if (error) {
-        res.json({
+        res.status(400).json({
           ok: false,
           message: 'Ha ocurrido un error al intentar enviar el correo',
           error: error
@@ -175,7 +186,7 @@ export const sendNewPassword = async (req: Request, res: Response) => {
         const UsersRepository = AppDataSource.getRepository(User)
         await UsersRepository.update(user.id, { password: newPassword })
 
-        return res.status(400).json({
+        return res.json({
           ok: true,
           message: 'Se ha enviado un correo con la nueva contraseña'
         })
