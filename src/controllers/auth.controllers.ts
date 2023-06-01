@@ -150,6 +150,10 @@ export const sendNewPassword = async (req: Request, res: Response) => {
       return res.status(400).json(error)
     }
 
+    newPassword = bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10))
+    const userPasswordUpdated = AppDataSource.getRepository(User)
+    await userPasswordUpdated.update(user.id, { password: newPassword })
+
     return res.status(400).json({
       ok: true,
       message: 'Se ha enviado un correo con tu nueva contraseña'
