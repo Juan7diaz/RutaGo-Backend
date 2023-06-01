@@ -4,6 +4,7 @@ import cors from "cors";
 import userRoutes from '../routes/user.routes'
 import authRoutes from '../routes/auth.routes'
 import busroute from '../routes/busroute.routes'
+import favroute from '../routes/favroute.routes'
 
 import AppDataSource from '../database/config'
 
@@ -22,22 +23,26 @@ class Server {
   middlewares() {
     this.app.use(express.static("public"))
     this.app.use(express.json())
-    this.app.use(cors())
+    this.app.use(cors({
+      origin: 'http://localhost:5173',
+      optionsSuccessStatus: 200
+    }))
   }
 
-  async databaseInitialize(){
-    try{
+  async databaseInitialize() {
+    try {
       await AppDataSource.initialize()
-    }catch(err){
-      console.error("ERROR AL MOMENTO DE INIZIALIZAR LA BASE DE DATO: ")
+    } catch (err) {
+      console.error("ERROR AL MOMENTO DE INICIALIZAR LA BASE DE DATO: ")
       console.error(err)
     }
   }
 
-  routes(){
+  routes() {
     this.app.use('/api/user', userRoutes)
     this.app.use('/api/auth', authRoutes)
     this.app.use('/api/busroute', busroute)
+    this.app.use('/api/favroute', favroute)
   }
 
   listen() {

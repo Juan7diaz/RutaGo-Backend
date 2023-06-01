@@ -26,7 +26,7 @@ export const validateJWT = async( req:CustomRequest, res:Response, next:NextFunc
     if( !user ){
       return res.status(401).json({
         ok: false,
-        message: 'Token no valido'
+        message: 'Token no validos'
       })
     }
 
@@ -37,7 +37,7 @@ export const validateJWT = async( req:CustomRequest, res:Response, next:NextFunc
   } catch (error) {
     res.status(401).json({
       ok: false,
-      message: "Token no valido",
+      message: "Token no valido -kmk",
       error: error
     })
   }
