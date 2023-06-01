@@ -5,6 +5,7 @@ import userRoutes from '../routes/user.routes'
 import authRoutes from '../routes/auth.routes'
 import busroute from '../routes/busroute.routes'
 import favroute from '../routes/favroute.routes'
+import role from '../routes/role.routes'
 
 import AppDataSource from '../database/config'
 
@@ -23,10 +24,7 @@ class Server {
   middlewares() {
     this.app.use(express.static("public"))
     this.app.use(express.json())
-    this.app.use(cors({
-      origin: 'http://localhost:5173',
-      optionsSuccessStatus: 200
-    }))
+    this.app.use(cors())
   }
 
   async databaseInitialize() {
@@ -43,6 +41,8 @@ class Server {
     this.app.use('/api/auth', authRoutes)
     this.app.use('/api/busroute', busroute)
     this.app.use('/api/favroute', favroute)
+    this.app.use('/api/role', role)
+
   }
 
   listen() {
